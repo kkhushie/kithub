@@ -31,11 +31,7 @@ export default function ProductPage() {
   }
 
   // Mock product images
-  const productImages = [
-    product.image,
-    'https://images.unsplash.com/photo-1558655146-364adaf1fcc9?w=800&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop',
-  ];
+
 
   const features = [
     'Fully editable PSD file',
@@ -70,30 +66,12 @@ export default function ProductPage() {
             {/* Main Image */}
             <div className="card mb-4 overflow-hidden">
               <img
-                src={productImages[selectedImage]}
+                src={product.image}
                 alt={product.title}
-                className="w-full h-96 object-cover"
+                className="w-full h-full object-cover"
               />
             </div>
 
-            {/* Thumbnails */}
-            <div className="flex gap-4">
-              {productImages.map((img, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedImage(index)}
-                  className={`flex-1 h-24 overflow-hidden rounded-lg doodle-border transition-all hover:-translate-y-0.5 ${
-                    selectedImage === index ? 'ring-2 ring-foreground' : ''
-                  }`}
-                >
-                  <img
-                    src={img}
-                    alt={`Preview ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* Product Info */}

@@ -101,7 +101,7 @@ export default function Header() {
                 </div>
               </div>
             ) : (
-              <Link href="auth/login"
+              <Link href="/auth/login"
                 className="flex items-center gap-2 px-4 py-2 border-2 border-gray-900 rounded-lg font-medium hover:bg-gray-100 transition-colors"
               >
                 <LogIn className="w-4 h-4" />

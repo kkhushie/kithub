@@ -9,7 +9,7 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState('All');
   
   // Only 3 main categories for PSDs
-  const categories = ['All', 'YouTube', 'Podcast', 'Coding'];
+  const categories = ['All', 'Tech', 'Podcast', 'Coding','Trading'];
   
   return (
     <div className="min-h-screen">
@@ -106,7 +106,7 @@ export default function Home() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {products
               .filter(p => activeCategory === 'All' || p.category === activeCategory)
-              .slice(0, 6)
+              .slice(0, 3)
               .map((product, index) => (
                 <ProductCard key={product.id} product={product} accentIndex={index} />
               ))}

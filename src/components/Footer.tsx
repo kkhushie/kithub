@@ -72,7 +72,7 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-muted-foreground">
                 <Mail className="w-4 h-4" />
-                support@retropsd.com
+                support@kithub.com
               </li>
               <li className="text-sm text-muted-foreground mt-4">
                 Response within 24 hours

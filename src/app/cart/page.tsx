@@ -6,26 +6,17 @@ import { products } from '@/lib/products';
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([
-    { ...products[0], quantity: 1 },
-    { ...products[1], quantity: 2 },
-    { ...products[2], quantity: 1 },
+    { ...products[0] },
+    { ...products[1]},
+    { ...products[2]},
   ]);
 
-  const updateQuantity = (id: number, change: number) => {
-    setCartItems(prev =>
-      prev.map(item =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + change) }
-          : item
-      )
-    );
-  };
 
   const removeItem = (id: number) => {
     setCartItems(prev => prev.filter(item => item.id !== id));
   };
 
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const subtotal = cartItems.reduce((sum, item) => sum + (item.price), 0);
   const discount = subtotal > 1000 ? 200 : 0;
   const total = subtotal - discount;
 
@@ -57,7 +48,7 @@ export default function CartPage() {
                         />
                         <button
                           onClick={() => removeItem(item.id)}
-                          className="absolute -top-2 -right-2 w-8 h-8 bg-accent-coral rounded-full doodle-border flex items-center justify-center hover:bg-accent-coral/90"
+                          className="absolute -top-2 -right-2 w-8 h-8 bg-red-400 rounded-full doodle-border flex items-center justify-center hover:bg-accent-coral/90"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -68,32 +59,16 @@ export default function CartPage() {
                         <div className="flex justify-between">
                           <div>
                             <h3 className="font-bold text-lg mb-2">{item.title}</h3>
-                            <p className="text-muted-foreground text-sm mb-4">{item.author}</p>
+                            {/* <p className="text-muted-foreground text-sm mb-4">{item.author}</p> */}
                           </div>
                           <div className="text-2xl font-bold font-hand">₹{item.price}</div>
                         </div>
 
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-4">
-                            <div className="flex items-center doodle-border rounded-lg overflow-hidden">
-                              <button
-                                onClick={() => updateQuantity(item.id, -1)}
-                                className="px-3 py-1 hover:bg-muted"
-                              >
-                                <Minus className="w-4 h-4" />
-                              </button>
-                              <span className="px-4 py-1 border-x-2 border-foreground font-medium">
-                                {item.quantity}
-                              </span>
-                              <button
-                                onClick={() => updateQuantity(item.id, 1)}
-                                className="px-3 py-1 hover:bg-muted"
-                              >
-                                <Plus className="w-4 h-4" />
-                              </button>
-                            </div>
+                            
                             <div className="text-sm text-muted-foreground">
-                              Total: <span className="font-bold text-foreground">₹{item.price * item.quantity}</span>
+                              Total: <span className="font-bold text-foreground">₹{item.price}</span>
                             </div>
                           </div>
                         </div>
@@ -151,10 +126,10 @@ export default function CartPage() {
                 </div>
 
                 <div className="space-y-4">
-                  <button className="btn-primary w-full flex items-center justify-center gap-2">
+                  <Link href="/checkout" className="btn-primary w-full flex items-center justify-center gap-2">
                     Proceed to Checkout
                     <ArrowRight className="w-5 h-5" />
-                  </button>
+                  </Link>
                   
                   <Link 
                     href="/products" 

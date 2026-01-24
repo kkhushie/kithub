@@ -7,7 +7,7 @@ export default function ProductsPage() {
   const [activeCategory, setActiveCategory] = useState('All');
   
   // Your 3 main categories
-  const categories = ['All', 'YouTube', 'Podcast', 'Coding'];
+  const categories = ['All', 'Tech', 'Podcast', 'Coding','Trading'];
   
   const filteredProducts = activeCategory === 'All' 
     ? products 
