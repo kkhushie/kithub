@@ -1,5 +1,5 @@
 {
-  "name": "creator-kit-next-app",
+  "name": "kithub",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,19 +9,33 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@next/font": "^14.2.15",
+    "@radix-ui/react-accordion": "^1.2.12",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.563.0",
     "next": "16.1.4",
+    "next-auth": "^4.24.13",
+    "next-font": "^1.2.0",
+    "postcss": "^8.5.6",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.4",
-    "tailwindcss": "^4",
+    "tailwindcss": "^4.1.18",
     "typescript": "^5"
-  }
+  },
+  "description": "��#\u0000 \u0000K\u0000i\u0000t\u0000h\u0000u\u0000b\u0000 \u0000-\u0000 \u0000P\u0000r\u0000e\u0000m\u0000i\u0000u\u0000m\u0000 \u0000P\u0000S\u0000D\u0000 \u0000M\u0000a\u0000r\u0000k\u0000e\u0000t\u0000p\u0000l\u0000a\u0000c\u0000e\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module"
 }

@@ -1,26 +1,110 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 45 100% 98%;
+    --foreground: 0 0% 10%;
+    --primary: 220 90% 50%;
+    --primary-foreground: 0 0% 100%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+    --muted: 45 20% 90%;
+    --muted-foreground: 0 0% 40%;
+    --accent-coral: 0 100% 85%;
+    --accent-yellow: 45 100% 85%;
+    --accent-mint: 160 100% 85%;
+    --accent-lavender: 260 100% 85%;
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-feature-settings: "kern", "liga", "clig", "calt";
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .doodle-border {
+    border: 2px solid hsl(var(--foreground));
+  }
+  
+  .doodle-border-dashed {
+    border: 2px dashed hsl(var(--foreground));
+  }
+  
+  .doodle-shadow {
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  }
+  
+  .doodle-shadow-sm {
+    box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+  }
+  
+  .doodle-hover {
+    transition: all 0.3s ease;
+  }
+  
+  .doodle-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1);
+  }
+  
+  .card {
+    background-color: hsl(var(--card));
+    border: 2px solid hsl(var(--foreground));
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+  
+  .btn-primary {
+    background-color: hsl(var(--foreground));
+    color: hsl(var(--primary-foreground));
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-radius: 0.5rem;
+    border: 2px solid hsl(var(--foreground));
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: hsla(var(--foreground) / 0.9);
+    transform: translateY(-2px);
+  }
+  
+  .btn-secondary {
+    background-color: transparent;
+    color: hsl(var(--foreground));
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-radius: 0.5rem;
+    border: 2px solid hsl(var(--foreground));
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-secondary:hover {
+    background-color: hsl(var(--muted));
+    transform: translateY(-2px);
+  }
+  
+  .font-hand {
+    font-family: var(--font-hand), cursive;
+  }
+}
+
+/* OR even simpler - just use plain CSS classes */
+.doodle-border {
+  border: 2px solid #1a1a1a;
+}
+
+.doodle-shadow {
+  box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
 }
