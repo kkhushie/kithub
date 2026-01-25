@@ -14,7 +14,7 @@ export const products: Product[] = [
     title: 'YouTube Tech Thumbnails',
     category: 'Tech',
     price: 299,
-    image: '/images/products/tech.png',
+    image: '/images/products/three.png',
     description: '10 modern tech YouTube thumbnail PSDs'
   },
   {
@@ -28,9 +28,9 @@ export const products: Product[] = [
   {
     id: 3,
     title: 'Coding Tutorial Thumbnails',
-    category: 'Coding',
+    category: 'Edtech',
     price: 599,
-    image: '/images/products/three.png',
+    image: '/images/products/tech.png',
     description: '12 coding tutorial thumbnail PSDs'
   },
   {

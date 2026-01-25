@@ -9,7 +9,7 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState('All');
   
   // Only 3 main categories for PSDs
-  const categories = ['All', 'Tech', 'Podcast', 'Coding','Trading'];
+  const categories = ['All', 'Tech', 'Podcast', 'Edtech','Trading'];
   
   return (
     <div className="min-h-screen">

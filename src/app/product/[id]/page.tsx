@@ -105,7 +105,7 @@ export default function ProductPage() {
             <div className="card p-6 mb-8">
               <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                 <Check className="w-5 h-5 text-green-500" />
-                What's Included
+                What&apos;s Included
               </h3>
               <div className="grid sm:grid-cols-2 gap-3">
                 {features.map((feature, index) => (
@@ -186,7 +186,7 @@ export default function ProductPage() {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">Software</span>
-                  <span className="font-bold">Photoshop / Photopea</span>
+                  <span className="font-bold">Photoshop</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">Delivery</span>
@@ -224,7 +224,7 @@ export default function ProductPage() {
               
               <div className="grid md:grid-cols-2 gap-8 mb-8">
                 <div>
-                  <h4 className="font-bold mb-4">What You'll Get</h4>
+                  <h4 className="font-bold mb-4">What You&apos;ll Get</h4>
                   <ul className="space-y-2">
                     <li className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-foreground rounded-full"></div>
@@ -245,7 +245,7 @@ export default function ProductPage() {
                   <ul className="space-y-2">
                     <li className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-foreground rounded-full"></div>
-                      Adobe Photoshop or Photopea (free)
+                      Adobe Photoshop (free)
                     </li>
                     <li className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-foreground rounded-full"></div>

@@ -1,0 +1,133 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js" // Fixed: should be "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  image     String?
+  role      String   @default("USER") // USER | ADMIN
+
+  orders    Order[]
+  downloads Download[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([createdAt])
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  title         String
+  slug          String   @unique
+  description   String?
+
+  price         Int      // in paise
+  previewUrl    String?  // public image URL/path
+
+  fileKey       String   // private storage key (NOT URL)
+  fileSizeBytes Int?
+
+  category      String
+  tags          String[] @default([])
+
+  isActive      Boolean  @default(true)
+
+  // ========== RELATIONS ==========
+  orderItems    OrderItem[]
+  downloads     Download[]  // ← ADD THIS LINE (missing relation)
+  // ===============================
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([category])
+}
+
+model Order {
+  id               String      @id @default(cuid())
+  orderNumber      String?     @unique @default(cuid()) // User-friendly: ORD-123
+
+  userId           String
+  user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  amount           Int
+  currency         String      @default("INR")
+  status           OrderStatus @default(PENDING)
+
+  razorpayOrderId  String?     @unique
+  razorpayPaymentId String?
+  razorpaySignature String?
+
+  // Security fields (for download access)
+  accessToken      String?     @unique // Generated after payment
+  tokenExpiry      DateTime?   // When token expires
+
+  items            OrderItem[]
+  downloads        Download[]
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  paidAt           DateTime?
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+  @@index([accessToken])
+  @@index([razorpayOrderId])
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+
+  price     Int     // Snapshot of price at purchase time
+  quantity  Int     @default(1)
+
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  createdAt DateTime @default(now())
+
+  @@index([orderId])
+  @@index([productId])
+  @@unique([orderId, productId]) // Prevent duplicate products in same order
+}
+
+model Download {
+  id        String   @id @default(cuid())
+  userId    String
+  orderId   String
+  productId String
+
+  count     Int      @default(0)
+  lastDownloadedAt DateTime?
+  expiresAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@unique([userId, orderId, productId])
+  @@index([userId])
+  @@index([orderId])
+  @@index([expiresAt])
+}

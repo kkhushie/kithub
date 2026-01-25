@@ -23,7 +23,7 @@ const comicNeue = Comic_Neue({
 });
 
 export const metadata: Metadata = {
-  title: 'Retro PSD - Creative Templates',
+  title: 'Kithub - Premium Store',
   description: 'Handcrafted PSD templates with doodle style',
 };
 
