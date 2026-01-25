@@ -1,10 +1,10 @@
 'use client';
-import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 import { CheckCircle, Download, Home, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
 
-export default function SuccessPage() {
+// Move useSearchParams to a separate component
+function SuccessContent() {
   const searchParams = useSearchParams();
   const productId = parseInt(searchParams.get('id') || '1');
   const [countdown, setCountdown] = useState(5);
@@ -100,5 +100,25 @@ export default function SuccessPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Import hooks inside the component
+import { useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
+
+// Main page with Suspense
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-2xl font-hand mb-4">Processing payment...</div>
+          <div className="text-muted-foreground">Preparing your download</div>
+        </div>
+      </div>
+    }>
+      <SuccessContent />
+    </Suspense>
   );
 }
