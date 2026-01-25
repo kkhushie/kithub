@@ -1,13 +1,16 @@
 'use client';
-export const dynamic = 'force-dynamic'; 
-import { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Shield, CreditCard, Smartphone, Check } from 'lucide-react';
 import { products } from '@/lib/products';
 
-export default function CheckoutPage() {
+// Import useSearchParams here, but use it INSIDE CheckoutContent
+import { useSearchParams } from 'next/navigation';
+
+// This component MUST be wrapped in Suspense and contains useSearchParams
+function CheckoutContent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams(); // ✅ Now inside Suspense component
   const productId = parseInt(searchParams.get('id') || '1');
   
   const product = products.find(p => p.id === productId) || products[0];
@@ -157,5 +160,21 @@ export default function CheckoutPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Main page component with Suspense
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-2xl font-hand mb-4">Loading checkout...</div>
+          <div className="text-muted-foreground">Preparing your secure payment</div>
+        </div>
+      </div>
+    }>
+      <CheckoutContent />
+    </Suspense>
   );
 }
