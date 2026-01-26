@@ -39,10 +39,10 @@ export default function RootLayout({
           {/* Grid Background with 10% opacity */}
           <div className="fixed inset-0 pointer-events-none overflow-hidden">
             {/* Option 1: Simple Dot Grid */}
-            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            {/* <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px]"></div> */}
             
             {/* Option 2: Line Grid (uncomment to use) */}
-            {/* <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] [background-size:20px_20px]"></div> */}
+            <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] [background-size:20px_20px]"></div>
             
             {/* Option 3: Isometric Grid (uncomment to use) */}
             {/* <div className="absolute inset-0 opacity-10" style={{
