@@ -11,15 +11,15 @@ import { useSearchParams } from 'next/navigation';
 function CheckoutContent() {
   const router = useRouter();
   const searchParams = useSearchParams(); // ✅ Now inside Suspense component
-  const productId = parseInt(searchParams.get('id') || '1');
-  
+  const productId = searchParams.get('id') || '1';
+
   const product = products.find(p => p.id === productId) || products[0];
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [loading, setLoading] = useState(false);
 
   const handlePayment = async () => {
     setLoading(true);
-    
+
     // TODO: Integrate Razorpay here
     // For now, simulate payment
     setTimeout(() => {
@@ -40,11 +40,11 @@ function CheckoutContent() {
           {/* Order Summary */}
           <div className="card p-6">
             <h2 className="text-2xl font-bold mb-6 font-hand">Order Summary</h2>
-            
+
             {/* Product Info */}
             <div className="flex gap-4 mb-6 p-4 doodle-border rounded-lg">
               <img
-                src={product.image}
+                src={product.preview_image}
                 alt={product.title}
                 className="w-16 h-16 rounded-lg doodle-border object-cover"
               />
@@ -94,14 +94,13 @@ function CheckoutContent() {
           {/* Payment Section */}
           <div className="card p-6">
             <h2 className="text-2xl font-bold mb-6">Payment Method</h2>
-            
+
             {/* Payment Options */}
             <div className="space-y-4 mb-8">
               <button
                 onClick={() => setPaymentMethod('card')}
-                className={`w-full p-4 rounded-lg doodle-border flex items-center justify-between transition-all hover:-translate-y-0.5 ${
-                  paymentMethod === 'card' ? 'bg-foreground text-primary-foreground' : 'hover:bg-muted'
-                }`}
+                className={`w-full p-4 rounded-lg doodle-border flex items-center justify-between transition-all hover:-translate-y-0.5 ${paymentMethod === 'card' ? 'bg-foreground text-primary-foreground' : 'hover:bg-muted'
+                  }`}
               >
                 <div className="flex items-center gap-3">
                   <CreditCard className="w-5 h-5" />
@@ -115,9 +114,8 @@ function CheckoutContent() {
 
               <button
                 onClick={() => setPaymentMethod('upi')}
-                className={`w-full p-4 rounded-lg doodle-border flex items-center justify-between transition-all hover:-translate-y-0.5 ${
-                  paymentMethod === 'upi' ? 'bg-foreground text-primary-foreground' : 'hover:bg-muted'
-                }`}
+                className={`w-full p-4 rounded-lg doodle-border flex items-center justify-between transition-all hover:-translate-y-0.5 ${paymentMethod === 'upi' ? 'bg-foreground text-primary-foreground' : 'hover:bg-muted'
+                  }`}
               >
                 <div className="flex items-center gap-3">
                   <Smartphone className="w-5 h-5" />
@@ -142,12 +140,11 @@ function CheckoutContent() {
             </div>
 
             {/* Pay Button */}
-            <button 
+            <button
               onClick={handlePayment}
               disabled={loading}
-              className={`btn-primary w-full flex items-center justify-center gap-2 ${
-                loading ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
+              className={`btn-primary w-full flex items-center justify-center gap-2 ${loading ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
             >
               {loading ? 'Processing...' : `Pay ₹${product.price} Now`}
             </button>

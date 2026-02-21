@@ -7,12 +7,12 @@ import { products } from '@/lib/products';
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([
     { ...products[0] },
-    { ...products[1]},
-    { ...products[2]},
+    { ...products[1] },
+    { ...products[2] },
   ]);
 
 
-  const removeItem = (id: number) => {
+  const removeItem = (id: string) => {
     setCartItems(prev => prev.filter(item => item.id !== id));
   };
 
@@ -42,13 +42,13 @@ export default function CartPage() {
                       {/* Product Image */}
                       <div className="relative">
                         <img
-                          src={item.image}
+                          src={item.preview_image}
                           alt={item.title}
                           className="w-32 h-32 object-cover rounded-lg doodle-border"
                         />
                         <button
                           onClick={() => removeItem(item.id)}
-                          className="absolute -top-2 -right-2 w-8 h-8 -40bg-red0 rounded-full doodle-border flex items-center justify-center hover:bg-accent-coral/90"
+                          className="absolute -top-2 -right-2 w-8 h-8 -40 bg-red-400 rounded-full doodle-border flex items-center justify-center hover:bg-accent-coral/90"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -66,7 +66,7 @@ export default function CartPage() {
 
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-4">
-                            
+
                             <div className="text-sm text-muted-foreground">
                               Total: <span className="font-bold text-foreground">₹{item.price}</span>
                             </div>
@@ -107,7 +107,7 @@ export default function CartPage() {
             <div className="lg:col-span-1">
               <div className="card p-6 sticky top-24">
                 <h2 className="text-2xl font-bold mb-6 font-hand">Order Summary</h2>
-                
+
                 <div className="space-y-4 mb-8">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Subtotal</span>
@@ -130,9 +130,9 @@ export default function CartPage() {
                     Proceed to Checkout
                     <ArrowRight className="w-5 h-5" />
                   </Link>
-                  
-                  <Link 
-                    href="/products" 
+
+                  <Link
+                    href="/products"
                     className="block w-full py-3 text-center doodle-border rounded-lg font-medium hover:bg-muted transition-colors"
                   >
                     Continue Shopping

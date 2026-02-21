@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import ProductCard from '../components/ProductCard';
-import { products } from '../lib/products';
+import { products } from '../../lib/products';
 import { ChevronRight, Download, Star, Shield, Layers, Check } from 'lucide-react';
 import Link from 'next/link';
 

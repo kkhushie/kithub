@@ -24,7 +24,7 @@ export default function ProductCard({ product, accentIndex = 0 }: ProductCardPro
       <Link href={`/product/${product.id}`}>
         <div className="relative overflow-hidden doodle-border-b">
           <Image
-            src={product.image}
+            src={product.preview_image}
             alt={product.title}
             width={410}
             height={300}

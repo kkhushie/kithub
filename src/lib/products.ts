@@ -4,7 +4,7 @@ export interface Product {
   title: string;
   category: string;
   price: number;
-  image: string;
+  preview_image: string;
   description: string;
   file_path?: string;
   created_at?: string;
@@ -17,7 +17,7 @@ export const products: Product[] = [
     title: 'YouTube Tech Thumbnails',
     category: 'Tech',
     price: 299,
-    image: '/images/products/three.png',
+    preview_image: '/images/products/three.png',
     description: '10 modern tech YouTube thumbnail PSDs'
   },
   {
@@ -25,7 +25,7 @@ export const products: Product[] = [
     title: 'Podcast Cover Pack',
     category: 'Podcast',
     price: 399,
-    image: '/images/products/podcast1.png',
+    preview_image: '/images/products/podcast1.png',
     description: '8 professional podcast cover PSDs'
   },
   {
@@ -33,7 +33,7 @@ export const products: Product[] = [
     title: 'Coding Tutorial Thumbnails',
     category: 'Edtech',
     price: 599,
-    image: '/images/products/tech.png',
+    preview_image: '/images/products/tech.png',
     description: '12 coding tutorial thumbnail PSDs'
   },
   {
@@ -41,7 +41,7 @@ export const products: Product[] = [
     title: 'Trading Thumbnails',
     category: 'Trading',
     price: 599,
-    image: '/images/products/trading.png',
+    preview_image: '/images/products/trading.png',
     description: '12 trading strategy thumbnail PSDs'
   },
   {
@@ -49,7 +49,7 @@ export const products: Product[] = [
     title: 'Trading Course Thumbnails',
     category: 'Trading',
     price: 599,
-    image: '/images/products/trading-course.png',
+    preview_image: '/images/products/trading-course.png',
     description: '12 trading strategy thumbnail PSDs'
   },
 ];

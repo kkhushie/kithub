@@ -113,7 +113,7 @@ export default function ProductPage() {
             {/* Main Image */}
             <div className="card mb-4 overflow-hidden">
               <img
-                src={product.image}
+                src={product.preview_image}
                 alt={product.title}
                 className="w-full h-full object-cover"
               />
@@ -324,7 +324,7 @@ export default function ProductPage() {
                 <div key={relatedProduct.id} className="card p-6 doodle-hover">
                   <div className="flex gap-4">
                     <img
-                      src={relatedProduct.image}
+                      src={relatedProduct.preview_image}
                       alt={relatedProduct.title}
                       className="w-20 h-20 rounded-lg doodle-border object-cover"
                     />
