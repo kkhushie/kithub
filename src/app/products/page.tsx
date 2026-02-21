@@ -1,16 +1,40 @@
 'use client';
 import ProductCard from '@/components/ProductCard';
-import { products } from '@/lib/products';
-import { useState } from 'react';
+import { supabase } from '@/lib/supabaseClient';
+import { useEffect, useState } from 'react';
+import { Product } from '@/lib/products';
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('All');
-  
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("products")
+          .select("*")
+          .eq("active", true);
+
+        if (error) throw error;
+        // Cast or map data if necessary, assuming keys match for now
+        setProducts(data as Product[] || []);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   // Your 3 main categories
-  const categories = ['All', 'Tech', 'Podcast', 'Edtech','Trading'];
-  
-  const filteredProducts = activeCategory === 'All' 
-    ? products 
+  const categories = ['All', 'Tech', 'Podcast', 'Edtech', 'Trading'];
+
+  const filteredProducts = activeCategory === 'All'
+    ? products
     : products.filter(p => p.category === activeCategory);
 
   return (
@@ -29,11 +53,10 @@ export default function ProductsPage() {
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2 rounded-lg font-medium transition-all hover:-translate-y-0.5 ${
-                activeCategory === cat
-                  ? 'bg-foreground text-primary-foreground doodle-border'
-                  : 'bg-card text-foreground doodle-border hover:bg-muted'
-              }`}
+              className={`px-5 py-2 rounded-lg font-medium transition-all hover:-translate-y-0.5 ${activeCategory === cat
+                ? 'bg-foreground text-primary-foreground doodle-border'
+                : 'bg-card text-foreground doodle-border hover:bg-muted'
+                }`}
             >
               {cat}
             </button>
@@ -41,14 +64,20 @@ export default function ProductsPage() {
         </div>
 
         {/* Product Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProducts.map((product, index) => (
-            <ProductCard key={product.id} product={product} accentIndex={index} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex justify-center items-center py-20">
+            <div className="w-12 h-12 border-4 border-black border-t-purple-500 rounded-full animate-spin"></div>
+          </div>
+        ) : (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredProducts.map((product, index) => (
+              <ProductCard key={product.id} product={product} accentIndex={index} />
+            ))}
+          </div>
+        )}
 
         {/* Empty State */}
-        {filteredProducts.length === 0 && (
+        {!loading && filteredProducts.length === 0 && (
           <div className="text-center py-16">
             <p className="text-2xl text-muted-foreground font-hand mb-4">No PSDs in this category yet</p>
             <p className="text-muted-foreground mb-8">More coming soon!</p>

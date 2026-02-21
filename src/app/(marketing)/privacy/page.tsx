@@ -48,7 +48,7 @@ export default function PrivacyPage() {
             <p className="text-gray-700">
               We use Razorpay as our payment processor. We never store your credit card details. All payment 
               information is handled securely by Razorpay in compliance with PCI-DSS standards. You can review 
-              Razorpay's privacy policy at{' '}
+              Razorpay&apos;s privacy policy at{' '}
               <a href="https://razorpay.com/privacy" className="text-purple-600 hover:underline" target="_blank">
                 razorpay.com/privacy
               </a>.

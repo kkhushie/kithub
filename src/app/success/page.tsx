@@ -3,6 +3,11 @@ import { Suspense } from 'react';
 import { CheckCircle, Download, Home, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
+const handleDownload = () => {
+  // Start download
+  window.open('/download/psd-template.zip', '_blank');
+};
+
 // Move useSearchParams to a separate component
 function SuccessContent() {
   const searchParams = useSearchParams();
@@ -25,10 +30,7 @@ function SuccessContent() {
     return () => clearInterval(timer);
   }, []);
 
-  const handleDownload = () => {
-    // Start download
-    window.open('/download/psd-template.zip', '_blank');
-  };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
@@ -64,7 +66,7 @@ function SuccessContent() {
 
         {/* Next Steps */}
         <div className="card p-6 mb-8">
-          <h3 className="font-bold mb-4">What's next?</h3>
+          <h3 className="font-bold mb-4">What&apos;s next?</h3>
           <div className="space-y-3 text-left">
             <div className="flex items-center gap-3">
               <div className="w-6 h-6 bg-accent-coral rounded-full flex items-center justify-center">

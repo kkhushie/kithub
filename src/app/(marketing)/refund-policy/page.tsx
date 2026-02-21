@@ -76,7 +76,7 @@ export default function RefundPolicyPage() {
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-red-500 mt-1">✗</span>
-                  <span><strong>Didn't read</strong> the product description or requirements</span>
+                  <span><strong>Didnt&apos; read</strong> the product description or requirements</span>
                 </li>
               </ul>
             </div>

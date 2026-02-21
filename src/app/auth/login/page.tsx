@@ -3,18 +3,34 @@
 import { useState } from 'react';
 import { ArrowLeft, Shield, Check, Mail, Lock, Download, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabaseClient';
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
+const handleLogin = async () => {
+  try {
     setLoading(true);
-    // Simulate login process
-    setTimeout(() => {
-      alert('This is a demo login page. In a real app, Google OAuth would work here.');
+
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+
+    if (error) {
+      console.error(error);
+      alert("Login failed");
       setLoading(false);
-    }, 1500);
-  };
+    }
+
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong");
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-8">

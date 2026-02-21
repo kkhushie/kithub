@@ -22,7 +22,7 @@ export default function ProductCard({ product, accentIndex = 0 }: ProductCardPro
     <div className="group bg-white doodle-border doodle-shadow doodle-hover overflow-hidden rounded-xl">
       {/* Image Container */}
       <Link href={`/product/${product.id}`}>
-        <div className="relative overflow-hidden bg-red-500 doodle-border-b">
+        <div className="relative overflow-hidden doodle-border-b">
           <Image
             src={product.image}
             alt={product.title}

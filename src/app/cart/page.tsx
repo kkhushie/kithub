@@ -48,7 +48,7 @@ export default function CartPage() {
                         />
                         <button
                           onClick={() => removeItem(item.id)}
-                          className="absolute -top-2 -right-2 w-8 h-8 bg-red-400 rounded-full doodle-border flex items-center justify-center hover:bg-accent-coral/90"
+                          className="absolute -top-2 -right-2 w-8 h-8 -40bg-red0 rounded-full doodle-border flex items-center justify-center hover:bg-accent-coral/90"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>

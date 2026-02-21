@@ -10,7 +10,7 @@ export default function NotFound() {
           <div className="text-9xl font-bold text-gray-900 font-hand">404</div>
           <div className="text-3xl font-semibold text-gray-700 mt-2">Page Not Found</div>
           <p className="text-gray-600 mt-4 max-w-md mx-auto">
-            Oops! The PSD template or page you're looking for has been moved or doesn't exist.
+            Oops! The PSD template or page you&apos;re looking for has been moved or doesn&apos;t exist.
           </p>
         </div>
 

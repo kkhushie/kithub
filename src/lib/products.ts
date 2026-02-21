@@ -1,16 +1,19 @@
 // lib/products.ts
 export interface Product {
-  id: number;
+  id: string;
   title: string;
   category: string;
   price: number;
   image: string;
   description: string;
+  file_path?: string;
+  created_at?: string;
+  active?: boolean;
 }
 
 export const products: Product[] = [
   {
-    id: 1,
+    id: '1',
     title: 'YouTube Tech Thumbnails',
     category: 'Tech',
     price: 299,
@@ -18,7 +21,7 @@ export const products: Product[] = [
     description: '10 modern tech YouTube thumbnail PSDs'
   },
   {
-    id: 2,
+    id: '2',
     title: 'Podcast Cover Pack',
     category: 'Podcast',
     price: 399,
@@ -26,7 +29,7 @@ export const products: Product[] = [
     description: '8 professional podcast cover PSDs'
   },
   {
-    id: 3,
+    id: '3',
     title: 'Coding Tutorial Thumbnails',
     category: 'Edtech',
     price: 599,
@@ -34,7 +37,7 @@ export const products: Product[] = [
     description: '12 coding tutorial thumbnail PSDs'
   },
   {
-    id: 4,
+    id: '4',
     title: 'Trading Thumbnails',
     category: 'Trading',
     price: 599,
@@ -42,7 +45,7 @@ export const products: Product[] = [
     description: '12 trading strategy thumbnail PSDs'
   },
   {
-    id: 5,
+    id: '5',
     title: 'Trading Course Thumbnails',
     category: 'Trading',
     price: 599,

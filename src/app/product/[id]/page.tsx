@@ -1,26 +1,73 @@
 'use client';
 import { useParams, useRouter } from 'next/navigation';
-import { products } from '@/lib/products';
+import { supabase } from '@/lib/supabaseClient';
 import { Star, ShoppingCart, Download, Check, Share2, ArrowLeft } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { Product } from '@/lib/products';
 
 export default function ProductPage() {
   const params = useParams();
   const router = useRouter();
-  const productId = parseInt(params.id as string);
-  const product = products.find(p => p.id === productId);
-  
+  const productId = params.id as string;
+
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      try {
+        setLoading(true);
+        // Fetch current product
+        const { data: productData, error: productError } = await supabase
+          .from("products")
+          .select("*")
+          .eq("id", productId)
+          .single();
+
+        if (productError) throw productError;
+        setProduct(productData as Product);
+
+        // Fetch related products
+        if (productData) {
+          const { data: relatedData } = await supabase
+            .from("products")
+            .select("*")
+            .eq("category", productData.category)
+            .neq("id", productId)
+            .limit(3);
+
+          setRelatedProducts(relatedData as Product[] || []);
+        }
+      } catch (err) {
+        console.error("Error fetching product:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (productId) {
+      fetchProductDetails();
+    }
+  }, [productId]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-black border-t-purple-500 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4 font-hand">PSD not found</h1>
+          <h1 className="text-2xl font-bold mb-4 font-hand">PSD not found</h1>
           <Link href="/products" className="btn-primary inline-flex items-center gap-2">
             <ArrowLeft className="w-4 h-4" />
             Back to Products
@@ -81,9 +128,9 @@ export default function ProductPage() {
               <span className="inline-block px-3 py-1 bg-accent-yellow rounded-full text-sm font-medium doodle-border mb-3">
                 {product.category}
               </span>
-              
+
               <h1 className="text-4xl font-bold mb-4 font-hand">{product.title}</h1>
-              
+
               <p className="text-lg text-muted-foreground mb-6">{product.description}</p>
             </div>
 
@@ -125,14 +172,14 @@ export default function ProductPage() {
               <div className="flex items-center gap-4 mb-6">
                 <span className="font-medium">Quantity:</span>
                 <div className="flex items-center doodle-border rounded-lg overflow-hidden">
-                  <button 
+                  <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     className="px-4 py-2 hover:bg-muted"
                   >
                     -
                   </button>
                   <span className="px-4 py-2 border-x-2 border-foreground">{quantity}</span>
-                  <button 
+                  <button
                     onClick={() => setQuantity(quantity + 1)}
                     className="px-4 py-2 hover:bg-muted"
                   >
@@ -146,7 +193,7 @@ export default function ProductPage() {
 
               {/* Action Buttons */}
               <div className="space-y-4">
-                <button 
+                <button
                   onClick={handleBuyNow}
                   className="btn-primary w-full flex items-center justify-center gap-2 group"
                 >
@@ -155,19 +202,18 @@ export default function ProductPage() {
                 </button>
 
                 <div className="flex gap-4">
-                  <button 
+                  <button
                     onClick={() => setIsFavorite(!isFavorite)}
-                    className={`flex-1 py-3 rounded-lg doodle-border flex items-center justify-center gap-2 transition-colors ${
-                      isFavorite 
-                        ? 'bg-accent-coral text-foreground' 
-                        : 'hover:bg-muted'
-                    }`}
+                    className={`flex-1 py-3 rounded-lg doodle-border flex items-center justify-center gap-2 transition-colors ${isFavorite
+                      ? 'bg-accent-coral text-foreground'
+                      : 'hover:bg-muted'
+                      }`}
                   >
-                    <svg 
-                      className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} 
+                    <svg
+                      className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`}
                       viewBox="0 0 24 24"
                     >
-                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                     </svg>
                     {isFavorite ? 'Saved' : 'Save'}
                   </button>
@@ -216,12 +262,12 @@ export default function ProductPage() {
           {/* Details Content */}
           <div className="card p-8">
             <h3 className="text-2xl font-bold mb-6 font-hand">About this PSD</h3>
-            
+
             <div className="prose max-w-none">
               <p className="text-lg mb-6">
                 This {product.category.toLowerCase()} thumbnail template is designed to help you create professional-looking thumbnails quickly. Every element is fully editable and organized in layers for easy customization.
               </p>
-              
+
               <div className="grid md:grid-cols-2 gap-8 mb-8">
                 <div>
                   <h4 className="font-bold mb-4">What You&apos;ll Get</h4>
@@ -270,13 +316,11 @@ export default function ProductPage() {
         </div>
 
         {/* Related Products */}
-        <div className="mt-16">
-          <h3 className="text-2xl font-bold mb-6 font-hand">You might also like</h3>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products
-              .filter(p => p.id !== product.id && p.category === product.category)
-              .slice(0, 3)
-              .map((relatedProduct, index) => (
+        {relatedProducts.length > 0 && (
+          <div className="mt-16">
+            <h3 className="text-2xl font-bold mb-6 font-hand">You might also like</h3>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {relatedProducts.map((relatedProduct) => (
                 <div key={relatedProduct.id} className="card p-6 doodle-hover">
                   <div className="flex gap-4">
                     <img
@@ -289,7 +333,7 @@ export default function ProductPage() {
                       <div className="text-muted-foreground text-sm mb-2">{relatedProduct.category}</div>
                       <div className="flex items-center justify-between">
                         <div className="font-bold text-xl font-hand">₹{relatedProduct.price}</div>
-                        <Link 
+                        <Link
                           href={`/product/${relatedProduct.id}`}
                           className="text-sm text-accent-coral hover:underline"
                         >
@@ -300,8 +344,9 @@ export default function ProductPage() {
                   </div>
                 </div>
               ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

@@ -1,13 +1,36 @@
 'use client';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabaseClient';
+import { User as SupabaseUser } from '@supabase/supabase-js';
 import Link from 'next/link';
-import { ShoppingCart, Menu, X, User, LogIn } from 'lucide-react';
-import { useState } from 'react';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { LogIn, Menu, ShoppingCart, User, X } from 'lucide-react';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { data: session, status } = useSession();
-  const loading = status === 'loading';
+  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      // console.log("current user : ",session?.user)
+      setUser(session?.user ?? null);
+      setLoading(false);
+    };
+
+    fetchSession();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+  };
 
   return (
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b-2 border-gray-900 z-50">
@@ -18,7 +41,7 @@ export default function Header() {
           <Link href="/" className="flex items-center gap-0">
             <div className="relative w-16 h-16">
               <img
-                src="favicon.ico"
+                src="/favicon.ico"
                 alt="logo"
                 className="w-full h-full absolute top-1 object-contain"
               />
@@ -38,7 +61,7 @@ export default function Header() {
             </Link>
 
             {/* Show Dashboard only if user is logged in */}
-            {session && (
+            {user && (
               <Link href="/dashboard" className="text-gray-900 hover:text-purple-600 font-medium transition-colors">
                 Dashboard
               </Link>
@@ -55,15 +78,15 @@ export default function Header() {
             {/* User/Auth Section */}
             {loading ? (
               <div className="w-10 h-10 rounded-full bg-gray-200 animate-pulse"></div>
-            ) : session ? (
+            ) : user ? (
               <div className="flex items-center gap-4">
                 {/* User Avatar */}
                 <div className="relative group">
                   <button className="w-10 h-10 border-2 border-gray-900 rounded-full overflow-hidden bg-green-200">
-                    {session.user?.image ? (
+                    {user.user_metadata?.avatar_url ? (
                       <img
-                        src={session.user.image}
-                        alt={session.user.name || 'User'}
+                        src={user.user_metadata.avatar_url}
+                        alt={user.user_metadata.full_name || 'User'}
                         className="w-full h-full object-cover"
                       />
                     ) : (
@@ -74,8 +97,8 @@ export default function Header() {
                   {/* Dropdown */}
                   <div className="absolute right-0 mt-2 w-48 bg-white border-2 border-gray-900 rounded-lg shadow-lg invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200">
                     <div className="p-4 border-b border-gray-900">
-                      <div className="font-semibold">{session.user?.name}</div>
-                      <div className="text-sm text-gray-600 truncate">{session.user?.email}</div>
+                      <div className="font-semibold">{user.user_metadata?.full_name || user.email}</div>
+                      <div className="text-sm text-gray-600 truncate">{user.email}</div>
                     </div>
                     <div className="p-2">
                       <Link
@@ -91,7 +114,7 @@ export default function Header() {
                         My Purchases
                       </Link>
                       <button
-                        onClick={() => signOut()}
+                        onClick={handleSignOut}
                         className="block w-full text-left px-3 py-2 rounded hover:bg-red-50 text-red-600 transition-colors"
                       >
                         Sign Out
@@ -129,12 +152,12 @@ export default function Header() {
             </Link>
 
             {/* Auth - Mobile */}
-            {session ? (
+            {user ? (
               <Link href="/dashboard" className="w-10 h-10 border-2 border-gray-900 rounded-full overflow-hidden bg-green-200 flex items-center justify-center">
-                {session.user?.image ? (
+                {user.user_metadata?.avatar_url ? (
                   <img
-                    src={session.user.image}
-                    alt={session.user.name || 'User'}
+                    src={user.user_metadata.avatar_url}
+                    alt={user.user_metadata.full_name || 'User'}
                     className="w-full h-full object-cover"
                   />
                 ) : (
@@ -142,12 +165,12 @@ export default function Header() {
                 )}
               </Link>
             ) : (
-              <button
-                onClick={() => signIn('google')}
+              <Link
+                href="/auth/login"
                 className="w-10 h-10 border-2 border-gray-900 rounded-full flex items-center justify-center hover:bg-gray-100"
               >
                 <LogIn className="w-5 h-5" />
-              </button>
+              </Link>
             )}
 
             <button
@@ -179,7 +202,7 @@ export default function Header() {
               </Link>
 
               {/* Show Dashboard only if user is logged in - Mobile */}
-              {session && (
+              {user && (
                 <Link
                   href="/dashboard"
                   className="px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors"
@@ -190,17 +213,15 @@ export default function Header() {
               )}
 
               {/* Mobile Auth Button */}
-              {!session && (
-                <button
-                  onClick={() => {
-                    signIn('google');
-                    setIsMenuOpen(false);
-                  }}
+              {!user && (
+                <Link
+                  href="/auth/login"
+                  onClick={() => setIsMenuOpen(false)}
                   className="px-4 py-3 border-2 border-gray-900 rounded-lg font-medium hover:bg-gray-100 transition-colors flex items-center gap-2"
                 >
                   <LogIn className="w-4 h-4" />
-                  Sign In with Google
-                </button>
+                  Sign In
+                </Link>
               )}
 
               <div className="pt-2">
